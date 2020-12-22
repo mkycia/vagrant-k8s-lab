@@ -4,10 +4,10 @@
   user: vagrant
 
   vars:
-  - pre_config: false
+  - pre_config: true
 
   - docker: 
-      install: false
+      install: true
 
   - minikube:
       install: false
@@ -17,8 +17,8 @@
       k8s_version: "1.19.6"
 
   - kind:
-      install: false
-      create_cluster: false
+      install: true
+      create_cluster: true
 
   - k8s_tools:
       install: true
