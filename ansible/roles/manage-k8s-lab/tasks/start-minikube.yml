@@ -12,6 +12,7 @@
   become: false
   when: result.rc==0 and "gcr.io/k8s-minikube/kicbase" not in result.stdout_lines
 
+# TODO - make handler of it
 - name: START-MINIKUBE | Generate kubectl bash completion  
   shell: kubectl completion bash > ~/.kube/completion.bash.inc
   become: false
