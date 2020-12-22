@@ -40,14 +40,29 @@
   become: false
   when: result.stdout_lines is not search('kindest/node') and kind.create_cluster | bool
 
+- name: INSTALL-KIND | Generate kind bash completion  
+  shell: kind completion bash > ~/.kind-completion
+  become: false
+  args:
+    creates: ~/.kind-completion
+
+- name: INSTALL-KIND | Add kind bash completion to .bash_profile
+  blockinfile:
+    path: /home/{{ ansible_user }}/.bash_profile
+    marker: "# {mark} ANSIBLE MANAGED BLOCK - KIND"
+    block: |
+      # Kind shell completion
+      source $HOME/.kind-completion
+  become: false
+
 # TODO - make handler of it
-- name: START-KIND | Generate kubectl bash completion  
+- name: INSTALL-KIND | Generate kubectl bash completion  
   shell: kubectl completion bash > ~/.kube/completion.bash.inc
   become: false
   args:
     creates: ~/.kube/completion.bash.inc
 
-- name: START-KIND | Add kubectl bash completion to .bash_profile
+- name: INSTALL-KIND | Add kubectl bash completion to .bash_profile
   blockinfile:
     path: /home/{{ ansible_user }}/.bash_profile
     block: |
