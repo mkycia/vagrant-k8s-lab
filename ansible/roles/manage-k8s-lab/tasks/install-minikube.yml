@@ -1,20 +1,4 @@
 ---
-- name: INSTALL-MINIKUBE | Check latest kubectl stable version number
-  uri:
-    url: https://storage.googleapis.com/kubernetes-release/release/stable.txt
-    return_content: yes
-  register: kubectl_version
-
-- name: INSTALL-MINIKUBE | Show kubectl_version_result.content
-  debug:
-    var: kubectl_version.content
-
-- name: INSTALL-MINIKUBE | Install kubectl
-  get_url:
-    url: https://storage.googleapis.com/kubernetes-release/release/{{ kubectl_version.content }}/bin/linux/amd64/kubectl
-    dest: /usr/local/bin/kubectl
-    mode: "0755"
-
 - name: INSTALL-MINIKUBE | Download minikube
   get_url:
     url: https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64

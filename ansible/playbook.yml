@@ -1,6 +1,6 @@
 ---
 - name: "Play with manage-k8s-lab role ;)"
-  hosts: localhost,all
+  hosts: localhost
   become: true
   user: vagrant
 
@@ -18,7 +18,7 @@
       k8s_version: "1.19.6"
 
   - kind:
-      install: false
+      install: true
       create_cluster: false
 
   - k8s_tools:
