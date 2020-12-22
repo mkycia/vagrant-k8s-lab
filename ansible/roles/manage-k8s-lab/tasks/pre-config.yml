@@ -1,0 +1,50 @@
+---
+- name: PRE-CONFIG | Set timezone to Europe/Warsaw
+  timezone:
+    name: Europe/Warsaw  
+
+- name: PRE-CONFIG | Disable SELinux
+  selinux:
+    state: disabled
+
+- name: PRE-CONFIG | Disable swap
+  command: swapoff -a
+
+- name: PRE-CONFIG | Disable in fstab
+  replace:
+    path: /etc/fstab
+    regexp: '^(\s*)([^#\n]+\s+)(\w+\s+)swap(\s+.*)$'
+    replace: '#\1\2\3swap\4'
+    backup: yes  
+
+- name: PRE-CONFIG | Remove swapfile
+  file:
+    path: "/swapfile"
+    state: absent
+
+- name: PRE-CONFIG | Disable unnecesary services
+  service:
+    name: "{{ item }}"
+    state: stopped
+    enabled: yes    
+  with_items:
+    - rpcbind
+    - postfix
+  
+- name: PRE-CONFIG | Install Packages
+  yum:
+    name: "{{ packages }}"
+    state: latest
+  vars:
+    packages:
+    - vim
+    - nc
+    - bash-completion 
+    - bash-completion-extras 
+    - yum-utils 
+    - device-mapper-persistent-data 
+    - lvm2 
+    - unzip 
+    - net-tools
+    - git
+

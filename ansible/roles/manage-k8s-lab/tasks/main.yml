@@ -1,0 +1,60 @@
+---
+- name: MAIN | Preconfigure VM
+  include_tasks:
+      file: pre-config.yml
+      apply:
+        tags:
+          - pre-config
+  when: pre_config | bool
+  tags:
+    - pre-config
+
+- name: MAIN | Install docker-ce
+  include_tasks:
+      file: install-docker.yml
+      apply:
+        tags:
+          - install-docker
+  when: docker.install | bool
+  tags:
+    - install-docker
+
+- name: MAIN | Install minikube
+  include_tasks:
+      file: install-minikube.yml
+      apply:
+        tags:
+          - install-minikube
+  when: minikube.install | bool
+  tags:
+    - install-minikube
+
+- name: MAIN | Startup minikube
+  include_tasks:
+      file: start-minikube.yml
+      apply:
+        tags:
+          - start-minikube
+  when: minikube.start | bool
+  tags:
+    - start-minikube    
+
+- name: MAIN | Install kind
+  include_tasks:
+      file: install-kind.yml
+      apply:
+        tags:
+          - install-kind
+  when: kind.install | bool
+  tags:
+    - install-kind
+
+- name: MAIN | Install k8s-tools
+  include_tasks:
+      file: install-k8s-tools.yml
+      apply:
+        tags:
+          - install-k8s-tools
+  when: k8s_tools.install | bool
+  tags:
+    - install-k8s-tools

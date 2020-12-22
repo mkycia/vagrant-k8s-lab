@@ -1,0 +1,27 @@
+--- 
+- name: START-MINIKUBE | Check if minikube is running
+  shell: "docker ps | grep minikube | awk '{print $2}' | cut -d ':' -f1"
+  register: result
+
+- name: START-MINIKUBE | Show result
+  debug:
+    var: result.stdout_lines
+  
+- name: START-MINIKUBE | Start minikube
+  command: minikube start --memory={{ minikube.memory }} --cpus={{ minikube.cpus }} --kubernetes-version={{ minikube.k8s_version }} --driver=docker
+  become: false
+  when: result.rc==0 and "gcr.io/k8s-minikube/kicbase" not in result.stdout_lines
+
+- name: START-MINIKUBE | Generate kubectl bash completion  
+  shell: kubectl completion bash > ~/.kube/completion.bash.inc
+  become: false
+  args:
+    creates: ~/.kube/completion.bash.inc
+
+- name: START-MINIKUBE | Add kubectl bash completion to .bash_profile
+  blockinfile:
+    path: /home/{{ ansible_user }}/.bash_profile
+    block: |
+      # Kubectl shell completion
+      source $HOME/.kube/completion.bash.inc
+  become: false

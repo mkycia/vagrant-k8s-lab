@@ -1,0 +1,33 @@
+---
+- hosts: localhost,all
+  become: true
+  user: vagrant
+
+  vars:
+  - pre_config: false
+
+  - docker: 
+      install: false
+
+  - minikube:
+      install: false
+      start: false
+      memory: "4096"
+      cpus: "2"
+      k8s_version: "1.19.6"
+
+  - kind:
+      install: false
+      create_cluster: false
+
+  - k8s_tools:
+      install: true
+      pack_install: true
+      skaffold_install: true
+      octant_install: true
+
+
+  roles:
+    - manage-k8s-lab
+        
+        

@@ -1,0 +1,33 @@
+---
+- name: INSTALL-DOCKER | Add docker-ce yum repo
+  shell: yum-config-manager --add-repo=https://download.docker.com/linux/centos/docker-ce.repo
+  args:
+    creates: /etc/yum.repos.d/docker-ce.repo     
+
+- name: INSTALL-DOCKER | Install Docker Packages
+  yum:
+    name: "{{ packages }}"
+    state: latest
+  vars:
+    packages:
+    - docker-ce 
+    - docker-ce-cli 
+    - containerd.io
+
+- name: INSTALL-DOCKER | Enable & Start Docker Service
+  service:
+    name: docker
+    state: started
+    enabled: yes
+
+- name: INSTALL-DOCKER | Add user 'vagrant' to docker group
+  user:
+    name: vagrant
+    groups: docker
+    append: yes
+
+- name: INSTALL-DOCKER | Install docker-compose
+  get_url:
+    url: https://github.com/docker/compose/releases/download/{{ docker_compose.version }}/docker-compose-Linux-x86_64
+    dest: /usr/local/bin/docker-compose
+    mode: "0755"

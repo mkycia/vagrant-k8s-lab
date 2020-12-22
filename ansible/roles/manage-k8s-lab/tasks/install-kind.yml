@@ -1,0 +1,33 @@
+---
+- name: INSTALL-KIND | Install kind
+  get_url:
+    url: https://kind.sigs.k8s.io/dl/v0.9.0/kind-linux-amd64
+    dest: /usr/local/bin/kind
+    mode: "0755"
+
+- name: INSTALL-KIND | copy cluster config
+  copy:
+    content: |
+      # three node kind cluster config
+      kind: Cluster
+      apiVersion: kind.x-k8s.io/v1alpha4
+      nodes:
+      - role: control-plane
+      - role: worker
+      - role: worker
+    dest: ~/kind-cluster-config.yml
+  become: false
+
+- name: INSTALL-KIND | Check if kind is running
+  shell: "docker ps | grep 'kindest/node' | awk '{print $2}' | uniq"
+  register: result
+
+- name: INSTALL-KIND | Show result
+  debug:
+    var: result.stdout_lines
+
+- name: INSTALL-KIND | create cluster
+  shell: kind create cluster --config ~/kind-cluster-config.yml
+  become: false
+  when: result.stdout_lines is not search('kindest/node')
+  

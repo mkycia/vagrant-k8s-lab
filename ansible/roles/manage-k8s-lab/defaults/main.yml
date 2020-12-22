@@ -1,0 +1,26 @@
+---
+pre_config: true
+
+docker: 
+  install: true
+
+docker_compose:
+  version: "1.27.4"
+
+minikube:
+  install: true
+  start: true
+  memory: "4096"
+  cpus: "2"
+  k8s_version: "1.19.6"
+
+kind:
+  install: true
+  create_cluster: true
+
+k8s_tools:
+  install: true
+  pack_install: true
+  skaffold_install: true
+  octant_install: true
+
