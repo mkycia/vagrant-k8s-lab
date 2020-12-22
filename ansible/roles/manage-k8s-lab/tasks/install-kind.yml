@@ -8,13 +8,13 @@
 - name: INSTALL-KIND | copy cluster config
   copy:
     content: |
-      # three node kind cluster config
+      # kind cluster config
       kind: Cluster
       apiVersion: kind.x-k8s.io/v1alpha4
       nodes:
       - role: control-plane
-      - role: worker
-      - role: worker
+      # - role: worker
+      # - role: worker
     dest: ~/kind-cluster-config.yml
   become: false
 
@@ -26,8 +26,17 @@
   debug:
     var: result.stdout_lines
 
-- name: INSTALL-KIND | create cluster
-  shell: kind create cluster --config ~/kind-cluster-config.yml
+- name: INSTALL-KIND | get my id with newgrp
+  shell: "newgrp docker; id"
+  register: id_result
   become: false
-  when: result.stdout_lines is not search('kindest/node')
+
+- name: INSTALL-KIND | show my_id
+  debug:
+    var: id_result
+
+- name: INSTALL-KIND | create cluster
+  shell: "newgrp docker; kind create cluster --config ~/kind-cluster-config.yml"
+  become: false
+  when: result.stdout_lines is not search('kindest/node') and kind.create_cluster | bool
   

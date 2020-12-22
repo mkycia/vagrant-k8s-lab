@@ -15,6 +15,11 @@ Vagrant.configure("2") do |config|
     config.vm.define node['name'] do |config|
       config.vm.hostname = node['name']
 
+      update_ansible_hosts = <<SCRIPT
+      mkdir -p /etc/ansible
+      echo "#{node['name']}" >/etc/ansible/hosts
+SCRIPT
+
 	    config.vm.provider "hyperv" do |hv|
         hv.vmname = node['name']
         # With nested virtualization, at least 2 CPUs are needed.
@@ -39,6 +44,8 @@ Vagrant.configure("2") do |config|
         v.customize ["modifyvm", :id, "--nicpromisc1", "allow-all"]
         v.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
       end
+
+      config.vm.provision :shell, :inline => update_ansible_hosts
 
       config.vm.provision :ansible_local do |ansible|
         ansible.playbook = "ansible/playbook.yml"

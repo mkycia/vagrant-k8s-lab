@@ -48,3 +48,14 @@
     - net-tools
     - git
 
+- name: PRE-CONFIG | Ensure ssh key exists
+  openssh_keypair:
+    path: "{{ lookup('env','HOME') + '/.ssh/id_rsa' }}"
+  become: false
+
+- name: PRE-CONFIG | Add ssh keys to local authorized_keys file
+  authorized_key:
+    user: "{{ lookup('env', 'USER') }}"
+    state: present
+    key: "{{ lookup('file', lookup('env','HOME') + '/.ssh/id_rsa.pub') }}"
+  become: false

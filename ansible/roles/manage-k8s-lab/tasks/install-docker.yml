@@ -26,6 +26,9 @@
     groups: docker
     append: yes
 
+- name: INSTALL-DOCKER | reset ssh connection to reflect changes for 'currently logged user'
+  meta: reset_connection
+
 - name: INSTALL-DOCKER | Install docker-compose
   get_url:
     url: https://github.com/docker/compose/releases/download/{{ docker_compose.version }}/docker-compose-Linux-x86_64
