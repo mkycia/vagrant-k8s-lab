@@ -11,7 +11,7 @@
       install: true
 
   - minikube:
-      install: false
+      install: true
       start: false
       memory: "4096"
       cpus: "2"
@@ -22,10 +22,13 @@
       create_cluster: false
 
   - k8s_tools:
-      install: true
+      install: false
       pack_install: true
       skaffold_install: true
       octant_install: true
+
+  - meshery:
+      install: true  
 
   roles:
     - manage-k8s-lab
