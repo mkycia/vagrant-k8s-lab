@@ -1,4 +1,20 @@
 ---
+- name: INSTALL-K8s TOOLS | Check latest kubectl stable version number
+  uri:
+    url: https://storage.googleapis.com/kubernetes-release/release/stable.txt
+    return_content: yes
+  register: kubectl_version
+
+- name: INSTALL-K8s TOOLS | Show kubectl_version_result.content
+  debug:
+    var: kubectl_version.content
+
+- name: INSTALL-K8s TOOLS | Install kubectl
+  get_url:
+    url: https://storage.googleapis.com/kubernetes-release/release/{{ kubectl_version.content }}/bin/linux/amd64/kubectl
+    dest: /usr/local/bin/kubectl
+    mode: "0755"
+
 - name: INSTALL-K8s TOOLS | Install buildpacks
   unarchive:
     src: https://github.com/buildpacks/pack/releases/download/v0.15.1/pack-v0.15.1-linux.tgz

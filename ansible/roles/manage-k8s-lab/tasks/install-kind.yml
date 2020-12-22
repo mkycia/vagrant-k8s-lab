@@ -39,4 +39,18 @@
   shell: "newgrp docker; kind create cluster --config ~/kind-cluster-config.yml"
   become: false
   when: result.stdout_lines is not search('kindest/node') and kind.create_cluster | bool
-  
+
+# TODO - make handler of it
+- name: START-KIND | Generate kubectl bash completion  
+  shell: kubectl completion bash > ~/.kube/completion.bash.inc
+  become: false
+  args:
+    creates: ~/.kube/completion.bash.inc
+
+- name: START-KIND | Add kubectl bash completion to .bash_profile
+  blockinfile:
+    path: /home/{{ ansible_user }}/.bash_profile
+    block: |
+      # Kubectl shell completion
+      source $HOME/.kube/completion.bash.inc
+  become: false
