@@ -20,6 +20,7 @@ kind:
 
 k8s_tools:
   install: true
+  kubectl_install: true
   pack_install: true
   skaffold_install: true
   octant_install: true

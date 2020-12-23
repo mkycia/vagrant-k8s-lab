@@ -4,16 +4,35 @@
     url: https://storage.googleapis.com/kubernetes-release/release/stable.txt
     return_content: yes
   register: kubectl_version
+  when: k8s_tools.kubectl_install | bool
 
 - name: INSTALL-K8s TOOLS | Show kubectl_version_result.content
   debug:
     var: kubectl_version.content
+  when: k8s_tools.kubectl_install | bool    
 
 - name: INSTALL-K8s TOOLS | Install kubectl
   get_url:
     url: https://storage.googleapis.com/kubernetes-release/release/{{ kubectl_version.content }}/bin/linux/amd64/kubectl
     dest: /usr/local/bin/kubectl
     mode: "0755"
+  when: k8s_tools.kubectl_install | bool
+
+- name: INSTALL-K8s TOOLS | Generate kubectl bash completion  
+  shell: kubectl completion bash > ~/.kubectl-completion-bash
+  become: false
+  args:
+    creates: ~/.kubectl-completion-bash
+  when: k8s_tools.kubectl_install | bool
+
+- name: INSTALL-K8s TOOLS | Add kubectl bash completion to .bash_profile
+  blockinfile:
+    path: /home/{{ ansible_user }}/.bash_profile
+    block: |
+      # Kubectl shell completion
+      source $HOME/.kubectl-completion-bash
+  become: false
+  when: k8s_tools.kubectl_install | bool
 
 - name: INSTALL-K8s TOOLS | Install buildpacks
   unarchive:
@@ -23,6 +42,7 @@
     owner: root
     group: root
     mode: "0755"
+  when: k8s_tools.pack_install | bool
 
 - name: INSTALL-K8s TOOLS | Download skaffold
   get_url:
@@ -31,12 +51,14 @@
     mode: "0755"
     owner: "{{ ansible_user }}"
     group: "{{ ansible_user }}"
-  become: false    
+  become: false
+  when: k8s_tools.skaffold_install | bool
 
 - name: INSTALL-K8s TOOLS | Install skaffold
   command: install /home/{{ ansible_user }}/skaffold-linux-amd64 /usr/local/bin/skaffold
   args:
-    creates: /usr/local/bin/skaffold    
+    creates: /usr/local/bin/skaffold
+  when: k8s_tools.skaffold_install | bool
 
 - name: INSTALL-K8s TOOLS | Install octant
   unarchive:
@@ -50,3 +72,4 @@
     - README.md
     extra_opts:
     - --strip-components=1
+  when: k8s_tools.octant_install | bool

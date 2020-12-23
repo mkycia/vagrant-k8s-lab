@@ -2,7 +2,7 @@ environment:
   base_box: "centos/7"
 
 boxes:
-- name: "node1a"
+- name: "node-test1"
   swarm_role: "manager"
   mem: "6144"
   cpu: "3"
