@@ -45,7 +45,7 @@ SCRIPT
         v.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
       end
 
-      config.vm.provision :shell, :inline => update_ansible_hosts
+      #config.vm.provision :shell, :inline => update_ansible_hosts
 
       config.vm.provision :ansible_local do |ansible|
         ansible.playbook = "ansible/playbook.yml"
