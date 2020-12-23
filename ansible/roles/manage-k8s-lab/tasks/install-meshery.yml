@@ -1,0 +1,21 @@
+---
+- name: INSTALL-MESHERY | Download meshery installer
+  get_url:
+    url: https://git.io/meshery
+    dest: /home/{{ ansible_user }}/meshery
+    mode: "0755"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+  become: false    
+
+- name: INSTALL-MESHERY | comment mesheryctl system start
+  replace:
+    path: /home/{{ ansible_user }}/meshery
+    regexp: '^mesheryctl system start$'
+    replace: '#mesheryctl system start'
+    backup: yes  
+
+- name: INSTALL-MESHERY | Install meshery
+  shell: /home/{{ ansible_user }}/meshery
+  args:
+    creates: /usr/local/bin/mesheryctl

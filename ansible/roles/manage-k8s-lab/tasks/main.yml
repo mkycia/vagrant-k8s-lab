@@ -58,3 +58,13 @@
   when: k8s_tools.install | bool
   tags:
     - install-k8s-tools
+
+- name: MAIN | Install meshery
+  include_tasks:
+      file: install-meshery.yml
+      apply:
+        tags:
+          - install-meshery
+  when: meshery.install | bool
+  tags:
+    - install-meshery    

@@ -24,3 +24,6 @@ k8s_tools:
   skaffold_install: true
   octant_install: true
 
+meshery:
+  install: true  
+
