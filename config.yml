@@ -2,22 +2,18 @@ environment:
   base_box: "centos/7"
 
 boxes:
-- name: "node-test1"
-  swarm_role: "manager"
-  mem: "6144"
+- name: "nc-test1"
+  mem: "4096"
   cpu: "3"
 
 # - name: "node2"
-#   swarm_role: "worker"
 #   mem: "1524"
 #   cpu: "1"
 
 # - name: "node3"
-#   swarm_role: "worker"
 #   mem: "1524"
 #   cpu: "1"
 
 # - name: "node4"
-#   swarm_role: "worker"
 #   mem: "1524"
 #   cpu: "1"

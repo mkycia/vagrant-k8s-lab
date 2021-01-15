@@ -1,17 +1,12 @@
 ---
-- name: "Play with manage-k8s-lab role ;)"
+- name: "Play with manage-k8s-lab role | install k8s local clusters & tools ;)"
   hosts: localhost,all
   become: true
   user: vagrant
 
   vars:
-  - pre_config: true
-
-  - docker: 
-      install: true
-
   - minikube:
-      install: true
+      install: false
       start: false
       memory: "4096"
       cpus: "2"
@@ -19,7 +14,7 @@
 
   - kind:
       install: true
-      create_cluster: false
+      create_cluster: true
 
   - k8s_tools:
       install: true

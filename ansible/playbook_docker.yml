@@ -1,0 +1,14 @@
+---
+- name: "Play with manage-k8s-lab role | install docker ;)"
+  hosts: localhost,all
+  become: true
+  user: vagrant
+
+  vars:
+  - pre_config: true
+
+  - docker: 
+      install: true
+
+  roles:
+    - manage-k8s-lab

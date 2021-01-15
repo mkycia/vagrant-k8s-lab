@@ -1,30 +1,30 @@
 ---
-pre_config: true
+pre_config: false
 
 docker: 
-  install: true
+  install: false
 
 docker_compose:
   version: "1.27.4"
 
 minikube:
-  install: true
-  start: true
+  install: false
+  start: false
   memory: "4096"
   cpus: "2"
   k8s_version: "1.19.6"
 
 kind:
-  install: true
-  create_cluster: true
+  install: false
+  create_cluster: false
 
 k8s_tools:
-  install: true
-  kubectl_install: true
-  pack_install: true
-  skaffold_install: true
-  octant_install: true
+  install: false
+  kubectl_install: false
+  pack_install: false
+  skaffold_install: false
+  octant_install: false
 
 meshery:
-  install: true  
+  install: false
 

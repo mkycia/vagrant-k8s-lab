@@ -1,5 +1,6 @@
 require 'yaml'
 
+
 config = YAML.load_file(File.join(File.dirname(__FILE__), 'config.yml'))
 
 base_box=config['environment']['base_box']
@@ -7,6 +8,8 @@ boxes = config['boxes']
 
 Vagrant.configure("2") do |config|
   config.vm.box = base_box
+
+  config.vagrant.plugins = ["vagrant-reload"]
 
   # Disable or Enable SMB Share
   config.vm.synced_folder ".", "/vagrant", disabled: false
@@ -47,8 +50,15 @@ SCRIPT
 
       #config.vm.provision :shell, :inline => update_ansible_hosts
 
-      config.vm.provision :ansible_local do |ansible|
-        ansible.playbook = "ansible/playbook.yml"
+      config.vm.provision :ansible_local do |ansible_part1|
+        ansible_part1.playbook = "ansible/playbook_docker.yml"
+      end
+
+      # trigger reload
+      config.vm.provision :reload
+
+      config.vm.provision :ansible_local do |ansible_part2|
+        ansible_part2.playbook = "ansible/playbook_k8s_tools.yml"
       end
 
     end
