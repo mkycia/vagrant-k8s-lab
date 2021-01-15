@@ -14,7 +14,7 @@
 
   - kind:
       install: true
-      create_cluster: true
+      create_cluster: false
 
   - k8s_tools:
       install: true

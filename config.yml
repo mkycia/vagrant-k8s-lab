@@ -3,7 +3,7 @@ environment:
 
 boxes:
 - name: "nc-test1"
-  mem: "4096"
+  mem: "6144"
   cpu: "3"
 
 # - name: "node2"

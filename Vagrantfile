@@ -1,5 +1,14 @@
 require 'yaml'
 
+VAGRANT_PLUGINS = ["vagrant-reload"]
+
+VAGRANT_PLUGINS.each do |plugin|
+  unless Vagrant.has_plugin?("#{plugin}")
+    system("vagrant plugin install #{plugin}")
+    exit system('vagrant', *ARGV)
+  end
+end
+
 
 config = YAML.load_file(File.join(File.dirname(__FILE__), 'config.yml'))
 
