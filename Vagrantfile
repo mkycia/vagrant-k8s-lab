@@ -1,7 +1,9 @@
 require 'yaml'
 
+# Automation of vagrant plugin installation. 
+# Pro  -> no noisy question if You really would like to install required plugins
+# Cons -> plugins will be installed globally
 VAGRANT_PLUGINS = ["vagrant-reload"]
-
 VAGRANT_PLUGINS.each do |plugin|
   unless Vagrant.has_plugin?("#{plugin}")
     system("vagrant plugin install #{plugin}")
@@ -18,7 +20,7 @@ boxes = config['boxes']
 Vagrant.configure("2") do |config|
   config.vm.box = base_box
 
-  config.vagrant.plugins = ["vagrant-reload"]
+  config.vagrant.plugins = VAGRANT_PLUGINS
 
   # Disable or Enable SMB Share
   config.vm.synced_folder ".", "/vagrant", disabled: false
@@ -59,11 +61,18 @@ SCRIPT
 
       #config.vm.provision :shell, :inline => update_ansible_hosts
 
+
+      # Docker installation is separated from other tasks into dedicated playbook to avoid issue 
+      # with adding vagrant user to docker group after docker installation.
+      # This workaround with VM restart enforces new connection to VM and as the result docker group
+      # for vagrant user is active. Without it is wasn't. Any other approach like newgrp etc.
+      # wasn't working for this specific local connection to VM as vagrant user.
+
       config.vm.provision :ansible_local do |ansible_part1|
         ansible_part1.playbook = "ansible/playbook_docker.yml"
       end
-
-      # trigger reload
+      
+      # Trigger VM reload
       config.vm.provision :reload
 
       config.vm.provision :ansible_local do |ansible_part2|
