@@ -59,6 +59,12 @@ SCRIPT
         v.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
       end
 
+      config.vm.provider "libvirt" do |domain|
+        domain.memory = node['mem']
+        domain.cpus = node['cpu']
+        domain.nested = false
+      end
+
       #config.vm.provision :shell, :inline => update_ansible_hosts
 
 

@@ -1,6 +1,6 @@
 ## Create k8s lab with vagrant VMs and ansible
 ----
-* supports Hyper-V or Virtualbox
+* supports Hyper-V or Virtualbox or libvirt (kvm)
 * support multiple VMs in one Vagrantfile
 * uses ansible_local provisioner to install and manage k8s stuff. Actually supports:
   * CentOS 7 (or any other RHEL based distro)
@@ -18,6 +18,9 @@
 
 ### To provision on virtualbox
 > `vagrant up --provider virtualbox`
+
+### To provision on libvirt (kvm) | assuming that vagrant plugin is installed on linux host with libvirt (kvm)
+> `vagrant up --provider libvirt`
 
 ### Hyper-v NAT network config (vagrant provider for Hyper-v doesn't support it like virtualbox, so it has to be done manually)
 
