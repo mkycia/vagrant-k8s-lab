@@ -46,3 +46,10 @@ PS C:\> New-NetNat -Name NAT -InternalIPInterfaceAddressPrefix "192.168.200.0/24
 
 * To configure VMs amount and parameters edit config.yml
 * To define which k8s stuff to install edit ansible/playbook.yml
+
+
+## How to connect from bash terminal
+
+mkdir  ~/.ssh/
+vagrant ssh-config >  ~/.ssh/config
+ssh <machine-name>

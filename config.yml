@@ -2,7 +2,7 @@ environment:
   base_box: "centos/7"
 
 boxes:
-- name: "nc-test1"
+- name: "k8s-lab"
   mem: "6144"
   cpu: "3"
 

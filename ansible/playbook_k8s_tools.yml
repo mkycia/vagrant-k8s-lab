@@ -6,14 +6,14 @@
 
   vars:
   - minikube:
-      install: false
-      start: false
+      install: true
+      start: true
       memory: "4096"
       cpus: "2"
-      k8s_version: "1.19.6"
+      k8s_version: "1.27.1"
 
   - kind:
-      install: true
+      install: false
       create_cluster: false
 
   - k8s_tools:
