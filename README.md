@@ -49,7 +49,8 @@ PS C:\> New-NetNat -Name NAT -InternalIPInterfaceAddressPrefix "192.168.200.0/24
 
 
 ## How to connect from bash terminal
-
+```
 mkdir  ~/.ssh/
 vagrant ssh-config >  ~/.ssh/config
 ssh <machine-name>
+```
