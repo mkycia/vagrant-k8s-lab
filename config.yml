@@ -3,7 +3,7 @@ environment:
 
 boxes:
 - name: "k8s-lab"
-  mem: "6144"
+  mem: "4500"
   cpu: "3"
 
 # - name: "node2"
