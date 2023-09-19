@@ -13,6 +13,7 @@
     - docker-ce 
     - docker-ce-cli 
     - containerd.io
+    - joe
 
 - name: INSTALL-DOCKER | Enable & Start Docker Service
   service:
